@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+</head>
+<body>
+<h2>Search</h2>
+<button onclick=location.href="/main">메인으로</button>
+<br>
+<tbody>
+<tr th:each="song : ${songs}">
+  <td th:text="${song.singer}">singer</td>
+  <td th:text="${song.title}">title</td>
+  <td th:text="${song.genre}">genre</td>
+  <br>
+</tr>
+</tbody>
+</body>
+</html>

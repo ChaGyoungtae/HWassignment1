@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/logout" method="post">
+<button type="submit">Logout</button>
+</form>
+<tbody>
+<tr th:each="playlist : ${playlists}">
+    <td th:text="${playlists.playlistNumber}">playlistNumber</td>
+    <br>
+</tr>
+</tbody>
+<form action="/create-playlist" method="post">
+    <button type="submit">플레이리스트 추가</button>
+</form>
+</body>
+</html>

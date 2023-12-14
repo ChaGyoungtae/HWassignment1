@@ -35,7 +35,7 @@ public class UserController {
 
     }
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public String showLoginForm() {
         return "login";
     }
@@ -45,14 +45,27 @@ public class UserController {
 
         String result = userService.logInUser(username, httpServletRequest);
 
-        if (result == "로그인 성공") {
-            return "/main";
+        if (result == "로그인 완료") {
+            return "redirect:/main";
         } else if(result == "존재하지 않는 회원입니다.") {
             return "/login_ng";
         } else {
-            return "/";
+
+            return "/login_already";
         }
 
+    }
+
+    @PostMapping("/logout")
+    public String logOut(HttpServletRequest httpServletRequest){
+
+
+        HttpSession session = httpServletRequest.getSession(false);
+
+        if(session != null){
+            session.invalidate();
+        }
+        return "redirect:/";
     }
 }
 
