@@ -9,9 +9,10 @@
 <h2>Login</h2>
 <form action="/login" method="post">
   <label for="username">Username:</label>
-  <input type="text" id="username" name="username" required>
+  <input type="text" id="username" name="username" th:text ="${username}">
   <br>
   <button type="submit">Login</button>
 </form>
+<button onclick=location.href="/signup">signUp</button>
 </body>
 </html>

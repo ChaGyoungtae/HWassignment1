@@ -1,20 +1,21 @@
 package com.smutify_cgt.smutify.user;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping("/signup")
     public String showSignUpForm(User user) {
@@ -22,12 +23,16 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signUp(@RequestParam @Valid String user, BindingResult result, Model model) {
+    public String signUp(String username) {
+
+        String result = userService.createUser(username);
+        if (result == "회원가입 성공"){
+            return "/login";
+        } else {
+            return "/signup_ng";
+        }
 
 
-        userService.createUser(user);
-
-        return "/login";
     }
 
     @GetMapping("/login")
@@ -35,5 +40,19 @@ public class UserController {
         return "login";
     }
 
+    @PostMapping("/login")
+    public String logIn(String username, HttpServletRequest httpServletRequest) {
+
+        String result = userService.logInUser(username, httpServletRequest);
+
+        if (result == "로그인 성공") {
+            return "/main";
+        } else if(result == "존재하지 않는 회원입니다.") {
+            return "/login_ng";
+        } else {
+            return "/";
+        }
+
+    }
 }
 

@@ -7,9 +7,9 @@
 </head>
 <body>
 <h2>Sign Up</h2>
-<form action="/signup" method="post" th:object="${user}">
+<form action="/signup" method="post">
   <label for="username">Username:</label>
-  <input type="text" id="username" name="username" th:field="*{username}" required>
+  <input type="text" id="username" name="username" th:text ="${username}">
   <br>
   <button type="submit">Sign Up</button>
 </form>

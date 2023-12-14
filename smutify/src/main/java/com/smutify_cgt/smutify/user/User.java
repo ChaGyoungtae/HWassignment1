@@ -6,11 +6,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -20,4 +21,7 @@ public class User {
     @NotBlank(message = "Username is required")
     private String username;
 
+    public User(String username) {
+        this.username = username;
+    }
 }
