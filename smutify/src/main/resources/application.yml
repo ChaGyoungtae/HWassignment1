@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://pilab.smu.ac.kr:3306/db_201921026
+    username: 201921026
+    password: Pass1!1026
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
