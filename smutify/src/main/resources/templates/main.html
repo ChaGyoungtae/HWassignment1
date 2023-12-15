@@ -8,14 +8,17 @@
 <form action="/logout" method="post">
 <button type="submit">Logout</button>
 </form>
+<form action="/create-playlist" method="post">
+    <input type="text" name="inputplaylistname">
+    <button type="submit">플레이리스트 추가</button>
+</form>
+
 <tbody>
 <tr th:each="playlist : ${playlists}">
     <td th:text="${playlists.playlistNumber}">playlistNumber</td>
     <br>
 </tr>
 </tbody>
-<form action="/create-playlist" method="post">
-    <button type="submit">플레이리스트 추가</button>
-</form>
+
 </body>
 </html>

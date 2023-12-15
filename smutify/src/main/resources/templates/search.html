@@ -4,18 +4,79 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
+
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
 </head>
 <body>
 <h2>Search</h2>
 <button onclick=location.href="/main">메인으로</button>
 <br>
-<tbody>
-<tr th:each="song : ${songs}">
-  <td th:text="${song.singer}">singer</td>
-  <td th:text="${song.title}">title</td>
-  <td th:text="${song.genre}">genre</td>
-  <br>
-</tr>
-</tbody>
+<form action="/search-keyword" method="post">
+  <select name="searchcategory" id="searchcategory">
+    <option value="">선택</option>
+    <option value="singer">가수</option>
+    <option value="title">곡명</option>
+    <option value="genre">장르</option>
+  </select>
+
+  <input type="text" id="searchkeyword" name="searchkeyword" th:text ="${searchkeyword}">
+  <button type="submit">검색</button>
+</form>
+<br>
+<table>
+  <thead>
+  <tr>
+    <form action="/align-songtable" method="post">
+
+    <th>
+      가수
+      <button type="submit" name="sortField" value="singer">정렬</button>
+    </th>
+    <th>
+      곡명
+      <button type="submit" name="sortField" value="title">정렬</button>
+    </th>
+    <th>
+      장르
+      <button type="submit" name="sortField" value="genre">정렬</button>
+    </th>
+    </form>
+    <th>
+      장르 수정
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="song : ${songs}">
+    <td th:text="${song.singer}">singer</td>
+    <td th:text="${song.title}">title</td>
+    <form action="mod-genre" method="post">
+      <td th:text="${song.genre}">
+        null
+      </td>
+      <td>
+        <input type="text" name="newgenre">
+        <button type="submit" name="title" th:value="${song.title}">수정</button>
+      </td>
+    </form>
+  </tr>
+  </tbody>
+</table>
+
 </body>
 </html>

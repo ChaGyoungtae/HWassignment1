@@ -2,6 +2,7 @@ package com.smutify_cgt.smutify.music;
 
 import com.smutify_cgt.smutify.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -16,8 +17,8 @@ public class Playlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long playlistNumber;
-
+    @NotBlank(message = "playlistname is required")
+    private String playlistName;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_table_id")
     private SongTable song;
@@ -26,8 +27,8 @@ public class Playlist {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Builder
-    public void addPlaylist(User user, Long playlistNumber) {
-
+    public Playlist(String inputplaylistname, User user) {
+        this.playlistName = inputplaylistname;
+        this.user = user;
     }
 }

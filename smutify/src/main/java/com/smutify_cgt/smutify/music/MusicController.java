@@ -1,14 +1,17 @@
 package com.smutify_cgt.smutify.music;
 
+import com.smutify_cgt.smutify.user.User;
 import com.smutify_cgt.smutify.user.UserRepository;
 import com.smutify_cgt.smutify.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -19,28 +22,96 @@ public class MusicController {
     private final PlaylistRepository playlistRepository;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final PlaylistService playlistService;
 
     @GetMapping("/search")
-    public String showAll(Model model){
+    public String showAll(Model model, HttpSession session){
         List<SongTable> songs = songTableRepository.findAll();
 
+        session.setAttribute("songs",songs);
         model.addAttribute("songs",songs);
         return "search";
 
     }
 
+    @PostMapping("/search-keyword")
+    public String searchKeyword(@RequestParam String searchkeyword, @RequestParam String searchcategory, Model model, HttpSession session){
+
+        System.out.println(searchcategory+","+searchkeyword);
+        List<SongTable> songs;
+
+        if("singer".equals(searchcategory)){
+            songs = songTableRepository.findBySingerLike("%"+searchkeyword+"%");
+        } else if ("title".equals(searchcategory)) {
+            songs = songTableRepository.findByTitleLike("%"+searchkeyword+"%");
+        } else if ("genre".equals(searchcategory)){
+            if(searchkeyword.isEmpty()){
+                songs  = songTableRepository.findAll();
+            }
+            else{
+                songs = songTableRepository.findByGenreLike("%"+searchkeyword+"%");
+            }
+        } else {
+            songs  = songTableRepository.findAll();
+        }
+
+        session.setAttribute("songs",songs);
+        model.addAttribute("songs",songs);
+
+        return "/search";
+    }
+
+    @PostMapping("/align-songtable")
+    public String alignSongtable(Model model, @RequestParam String sortField, HttpSession session){
+
+        List<SongTable> alignSongTable = (List<SongTable>) session.getAttribute("songs");
+
+        System.out.println(alignSongTable);
+
+        alignSongTable.sort(Comparator.comparing(SongTable::getSinger));
+
+        model.addAttribute("songs",alignSongTable);
+
+        System.out.println(sortField);
+
+
+        return "/search";
+    }
+
+    @PostMapping("/mod-genre")
+    @Transactional
+    public String modGenre(Model model, @RequestParam String newgenre, @RequestParam String title){
+
+        songTableRepository.updateGenreByTitle(title,newgenre);
+        List<SongTable> updateSongTable = songTableRepository.findAll();
+        model.addAttribute("songs",updateSongTable);
+        return "/search";
+    }
+
     @GetMapping("/main")
-    public String mainPage(Model model) {
-        List<Playlist> playlists = playlistRepository.findAll();
+    public String mainPage(Model model, HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+        Long userid = user.getId();
+        System.out.println(user.getUsername());
+
+        List<Playlist> playlists = playlistRepository.findAllById(userid);
+
+
         model.addAttribute("playlists", playlists);
 
         return "/main";
     }
 
     @PostMapping("/create-playlist")
-    public String createPlaylist(HttpSession session) {
-        String username = session.getAttribute("username").toString();
+    public String createPlaylist(HttpSession session, @RequestParam String inputplaylistname) {
 
-        return "미완성";
+        User user = (User) session.getAttribute("user");
+        String result = playlistService.createPlaylist(user,inputplaylistname);
+
+
+        return "/create_playlist";
     }
+
+
 }

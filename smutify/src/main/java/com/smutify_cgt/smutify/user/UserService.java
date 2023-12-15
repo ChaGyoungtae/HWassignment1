@@ -34,7 +34,10 @@ public class UserService {
                 return "존재하지 않는 회원입니다.";
             } else {
                 HttpSession session = httpServletRequest.getSession(true);
-                session.setAttribute("username", username);
+                Long id = findUser.get().getId();
+                String name = findUser.get().getUsername();
+                User user = new User(id,name);
+                session.setAttribute("user", user);
                 session.setMaxInactiveInterval(1800);
                 return "로그인 완료";
             }
