@@ -23,4 +23,5 @@ public interface SongTableRepository extends JpaRepository<SongTable,Long> {
     @Modifying
     @Query("UPDATE SongTable s SET s.genre = :newGenre WHERE s.title = :songTitle")
     void updateGenreByTitle(@Param("songTitle") String songTitle, @Param("newGenre") String newGenre);
+
 }

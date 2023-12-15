@@ -14,6 +14,7 @@ public class PlaylistService {
 
     private final PlaylistRepository playlistRepository;
     private final UserRepository userRepository;
+    private final Playlist_SongTableRepository playlist_songTableRepository;
 
     @Transactional
     public String createPlaylist(User user, String inputplaylistname){
@@ -49,5 +50,11 @@ public class PlaylistService {
 
         return playlists;
     }
-    
+
+    public void createNowSong(Long songId, Long playlistId){
+
+        Playlist_SongTable playlist_songTable = new Playlist_SongTable(songId,playlistId);
+        playlist_songTableRepository.save(playlist_songTable);
+    }
+
 }

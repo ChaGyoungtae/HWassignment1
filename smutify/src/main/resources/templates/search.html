@@ -80,9 +80,7 @@
       </td>
       <td>
         <form action="/add-song" method="post">
-          <input type="hidden" name="singer" th:value="${song.singer}">
-          <input type="hidden" name="title" th:value="${song.title}">
-          <input type="hidden" name="genre" th:value="${song.genre}">
+          <input type="hidden" name="songId" th:value="${song.id}">
           <button type="submit">추가</button>
         </form>
       </td>

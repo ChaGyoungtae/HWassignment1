@@ -24,6 +24,8 @@ public class MusicController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final PlaylistService playlistService;
+    private final SongTableService songTableService;
+    private final Playlist_SongTableRepository playlist_SongTableRepository;
 
     @GetMapping("/search")
     public String showAll(Model model, HttpSession session){
@@ -35,10 +37,13 @@ public class MusicController {
 
     }
 
-    @PostMapping("add_new_song")
+    @PostMapping("/add_new_song")
     public String addNewSong(Model model, HttpSession session, @RequestParam Long playlistId){
-
-        return "";
+        Long songId = (Long) session.getAttribute("songId");
+        playlistService.createNowSong(songId,playlistId);
+        List<SongTable> songs = songTableRepository.findAll();
+        model.addAttribute("songs",songs);
+        return "search";
     }
 
     @PostMapping("/search-keyword")
@@ -124,25 +129,35 @@ public class MusicController {
     }
 
     @PostMapping("/show-list")
-    public String showPlaylist(@RequestParam String userplaylist, HttpSession session, Model model){
+    public String showPlaylist(@RequestParam Long userplaylistId, HttpSession session, Model model){
 
         User user = (User) session.getAttribute("user");
-        List<Playlist> userplaylists = playlistRepository.findPlaylistByPlaylistNameAndUser(userplaylist,user);
+        List<SongTable> result = songTableService.findList(userplaylistId);
 
-        model.addAttribute("userlists",userplaylists);
+        model.addAttribute("list_id", userplaylistId);
+        model.addAttribute("mysongs",result);
         return "show_list";
     }
 
-    @PostMapping("/add-song")
-    public String addSong(@RequestParam String singer,
-                          @RequestParam String title,
-                          @RequestParam String genre,
-                          HttpSession session, Model model){
 
-        System.out.println(singer + " " + title + " " + genre);
+    @GetMapping("delete_song")
+    public String deleteSong(@RequestParam("song_id") Long song_id,
+                             @RequestParam("list_id") Long list_id,
+                             Model model) {
+        songTableService.deleteSong(song_id,list_id);
+
+        List<SongTable> result = songTableService.findList(list_id);
+        model.addAttribute("mysongs",result);
+        return "show_list";
+    }
+    @PostMapping("/add-song")
+    public String addSong(@RequestParam Long songId, HttpSession session, Model model) {
 
         User user = (User) session.getAttribute("user");
+        session.setAttribute("songId",songId);
+
         model.addAttribute("playlists",playlistService.showPlaylist(user.getId()));
+
         return "add_song";
     }
 }

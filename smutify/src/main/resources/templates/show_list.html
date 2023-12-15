@@ -30,13 +30,18 @@
 
 <table>
   <tbody>
-  <form action="/show-list" method="post">
-    <tr th:each="list : ${userlists}">
-      <td th:text="${list.song.singer}"></td>
-      <td th:text="${list.song.title}"></td>
-      <td th:text="${list.song.genre}"></td>
+    <tr th:each="list : ${mysongs}">
+      <td th:text="${list.singer}"></td>
+      <td th:text="${list.title}"></td>
+      <td th:text="${list.genre}"></td>
+      <td>
+        <form action="/delete_song" method="get">
+          <input type="hidden" name="song_id" th:value="${list.id}">
+          <input type="hidden" name="list_id" th:value="${list_id}">
+          <button type="submit">삭제</button>
+        </form>
+      </td>
     </tr>
-  </form>
   </tbody>
 </table>
 
