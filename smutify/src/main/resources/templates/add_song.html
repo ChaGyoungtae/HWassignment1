@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+<h2>내 플레이리스트에 추가</h2>
+<button onclick=location.href="search">뒤로가기</button>
+<br>
+
+<table>
+  <tbody>
+
+    <tr th:each="list : ${playlists}">
+      <td th:text="${list.playlistName}"></td>
+      <td>
+        <form action="add_new_song" method="post">
+        <input type="hidden" name="playlistId" th:value="${list.id}">
+        <button type="submit">추가</button>
+        </form>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+</body>
+</html>

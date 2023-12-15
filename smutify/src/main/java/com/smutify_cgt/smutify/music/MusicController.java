@@ -9,6 +9,7 @@ import lombok.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
@@ -32,6 +33,12 @@ public class MusicController {
         model.addAttribute("songs",songs);
         return "search";
 
+    }
+
+    @PostMapping("add_new_song")
+    public String addNewSong(Model model, HttpSession session, @RequestParam Long playlistId){
+
+        return "";
     }
 
     @PostMapping("/search-keyword")
@@ -126,5 +133,16 @@ public class MusicController {
         return "show_list";
     }
 
+    @PostMapping("/add-song")
+    public String addSong(@RequestParam String singer,
+                          @RequestParam String title,
+                          @RequestParam String genre,
+                          HttpSession session, Model model){
 
+        System.out.println(singer + " " + title + " " + genre);
+
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("playlists",playlistService.showPlaylist(user.getId()));
+        return "add_song";
+    }
 }

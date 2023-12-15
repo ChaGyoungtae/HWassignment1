@@ -59,21 +59,34 @@
     <th>
       장르 수정
     </th>
+    <th>
+      추가
+    </th>
   </tr>
   </thead>
   <tbody>
   <tr th:each="song : ${songs}">
     <td th:text="${song.singer}">singer</td>
     <td th:text="${song.title}">title</td>
-    <form action="mod-genre" method="post">
+
       <td th:text="${song.genre}">
         null
       </td>
       <td>
+        <form action="mod-genre" method="post">
         <input type="text" name="newgenre">
         <button type="submit" name="title" th:value="${song.title}">수정</button>
+        </form>
       </td>
-    </form>
+      <td>
+        <form action="/add-song" method="post">
+          <input type="hidden" name="singer" th:value="${song.singer}">
+          <input type="hidden" name="title" th:value="${song.title}">
+          <input type="hidden" name="genre" th:value="${song.genre}">
+          <button type="submit">추가</button>
+        </form>
+      </td>
+
   </tr>
   </tbody>
 </table>
