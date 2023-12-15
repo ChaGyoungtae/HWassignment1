@@ -24,9 +24,9 @@
 </head>
 <body>
 <h2>Search</h2>
-<button onclick=location.href="/main">메인으로</button>
+<button onclick=location.href="/201921026/main">메인으로</button>
 <br>
-<form action="/search-keyword" method="post">
+<form action="/201921026/search-keyword" method="post">
   <select name="searchcategory" id="searchcategory">
     <option value="">선택</option>
     <option value="singer">가수</option>
@@ -41,7 +41,7 @@
 <table>
   <thead>
   <tr>
-    <form action="/align-songtable" method="post">
+    <form action="/201921026/align-songtable" method="post">
 
     <th>
       가수
@@ -73,13 +73,13 @@
         null
       </td>
       <td>
-        <form action="mod-genre" method="post">
+        <form action="/201921026/mod-genre" method="post">
         <input type="text" name="newgenre">
         <button type="submit" name="title" th:value="${song.title}">수정</button>
         </form>
       </td>
       <td>
-        <form action="/add-song" method="post">
+        <form action="/201921026/add-song" method="post">
           <input type="hidden" name="songId" th:value="${song.id}">
           <button type="submit">추가</button>
         </form>

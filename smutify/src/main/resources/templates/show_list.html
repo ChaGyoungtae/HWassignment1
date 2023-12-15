@@ -24,7 +24,7 @@
 
 </head>
 <body>
-<form action="/main" method="get">
+<form action="/201921026/main" method="get">
   <button type="submit">뒤로가기</button>
 </form>
 
@@ -35,7 +35,7 @@
       <td th:text="${list.title}"></td>
       <td th:text="${list.genre}"></td>
       <td>
-        <form action="/delete_song" method="get">
+        <form action="/201921026/delete_song" method="get">
           <input type="hidden" name="song_id" th:value="${list.id}">
           <input type="hidden" name="list_id" th:value="${list_id}">
           <button type="submit">삭제</button>

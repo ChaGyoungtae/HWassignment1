@@ -29,11 +29,11 @@
 
 <table>
   <tbody>
-    <form action="/add_new_song" method="post">
+    <form action="/201921026/add_new_song" method="post">
     <tr th:each="list : ${playlists}">
       <td th:text="${list.playlistName}"></td>
       <td>
-        <form action="add_new_song" method="post">
+        <form action="/201921026/add_new_song" method="post">
           <input type="hidden" name="playlistId" th:value="${list.id}">
         <button type="submit">추가</button>
         </form>

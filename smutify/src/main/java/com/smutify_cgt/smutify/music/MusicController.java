@@ -70,7 +70,7 @@ public class MusicController {
         session.setAttribute("songs",songs);
         model.addAttribute("songs",songs);
 
-        return "/search";
+        return "search";
     }
 
     @PostMapping("/align-songtable")
@@ -79,15 +79,21 @@ public class MusicController {
         List<SongTable> alignSongTable = (List<SongTable>) session.getAttribute("songs");
 
         System.out.println(alignSongTable);
+        if(sortField.equals("singer")){
+            alignSongTable.sort(Comparator.comparing(SongTable::getSinger));
+        } else if (sortField.equals("title")) {
+            alignSongTable.sort(Comparator.comparing(SongTable::getTitle));
+        } else{
+            alignSongTable.sort(Comparator.comparing(SongTable::getGenre));
+        }
 
-        alignSongTable.sort(Comparator.comparing(SongTable::getSinger));
 
         model.addAttribute("songs",alignSongTable);
 
         System.out.println(sortField);
 
 
-        return "/search";
+        return "search";
     }
 
     @PostMapping("/mod-genre")
@@ -97,7 +103,7 @@ public class MusicController {
         songTableRepository.updateGenreByTitle(title,newgenre);
         List<SongTable> updateSongTable = songTableRepository.findAll();
         model.addAttribute("songs",updateSongTable);
-        return "/search";
+        return "search";
     }
 
     @GetMapping("/main")

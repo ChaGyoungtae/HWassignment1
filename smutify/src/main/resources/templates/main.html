@@ -24,26 +24,36 @@
 
 </head>
 <body>
-<form action="/logout" method="post">
+<form action="/201921026/logout" method="post">
 <button type="submit">Logout</button>
 </form>
 
-<form action="/search" method="get">
+<form action="/201921026/search" method="get">
     <button type="submit">검색</button>
 </form>
 
-<form action="/create-playlist" method="post">
+<form action="/201921026/create-playlist" method="post">
     <input type="text" name="inputplaylistname">
     <button type="submit">플레이리스트 추가</button>
 </form>
 
 <table>
+    <thead>
+        <tr>
+            <th>
+                플레이리스트 이름
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
     <tbody>
 
     <tr th:each="list : ${playlists}">
         <td th:text="${list.playlistName}"></td>
         <td>
-            <form action="/show-list" method="post">
+            <form action="/201921026/show-list" method="post">
                 <input type="hidden" name="userplaylistId" th:value="${list.id}">
                 <button type="submit">보기</button>
             </form>

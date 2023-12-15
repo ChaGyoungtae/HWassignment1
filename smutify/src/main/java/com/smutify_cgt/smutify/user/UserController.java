@@ -29,9 +29,9 @@ public class UserController {
 
         String result = userService.createUser(username);
         if (result == "회원가입 성공"){
-            return "/login";
+            return "login";
         } else {
-            return "/signup_ng";
+            return "signup_ng";
         }
 
 
@@ -51,10 +51,10 @@ public class UserController {
             model.addAttribute("playlists",playlistService.showPlaylist(userService.findId(username).getId()));
             return "main";
         } else if(result == "존재하지 않는 회원입니다.") {
-            return "/login_ng";
+            return "login_ng";
         } else {
 
-            return "/login_already";
+            return "login_already";
         }
 
     }
@@ -68,7 +68,7 @@ public class UserController {
         if(session != null){
             session.invalidate();
         }
-        return "redirect:/";
+        return "login";
     }
 }
 
