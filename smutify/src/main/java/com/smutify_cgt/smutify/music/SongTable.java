@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,5 +24,5 @@ public class SongTable {
     private String genre;
 
     @OneToMany(mappedBy = "song")
-    private List<Playlist> playlists;
+    private List<Playlist> playlists = new ArrayList<>();;
 }

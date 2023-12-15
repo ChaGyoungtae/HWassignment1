@@ -91,26 +91,39 @@ public class MusicController {
     @GetMapping("/main")
     public String mainPage(Model model, HttpSession session) {
 
+        System.out.println("[mainPage]");
+
         User user = (User) session.getAttribute("user");
         Long userid = user.getId();
         System.out.println(user.getUsername());
 
-        List<Playlist> playlists = playlistRepository.findAllById(userid);
+        model.addAttribute("playlists",playlistService.showPlaylist(userid));
 
-
-        model.addAttribute("playlists", playlists);
-
-        return "/main";
+        return "main";
     }
 
     @PostMapping("/create-playlist")
-    public String createPlaylist(HttpSession session, @RequestParam String inputplaylistname) {
+    public String createPlaylist(HttpSession session, @RequestParam String inputplaylistname, Model model) {
 
         User user = (User) session.getAttribute("user");
         String result = playlistService.createPlaylist(user,inputplaylistname);
 
+        if ("생성 성공".equals(result)){
+            model.addAttribute("playlists",playlistService.showPlaylist(user.getId()));
+            return "main";
+        } else{
+            return "create_playlist_ng";
+        }
+    }
 
-        return "/create_playlist";
+    @PostMapping("/show-list")
+    public String showPlaylist(@RequestParam String userplaylist, HttpSession session, Model model){
+
+        User user = (User) session.getAttribute("user");
+        List<Playlist> userplaylists = playlistRepository.findPlaylistByPlaylistNameAndUser(userplaylist,user);
+
+        model.addAttribute("userlists",userplaylists);
+        return "show_list";
     }
 
 

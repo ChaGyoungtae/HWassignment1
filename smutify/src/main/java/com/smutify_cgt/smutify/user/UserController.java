@@ -1,5 +1,6 @@
 package com.smutify_cgt.smutify.user;
 
+import com.smutify_cgt.smutify.music.PlaylistService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final PlaylistService playlistService;
 
     @GetMapping("/signup")
     public String showSignUpForm(User user) {
@@ -41,12 +43,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String logIn(String username, HttpServletRequest httpServletRequest) {
+    public String logIn(String username, HttpServletRequest httpServletRequest, Model model) {
 
         String result = userService.logInUser(username, httpServletRequest);
 
         if (result == "로그인 완료") {
-            return "redirect:/main";
+            model.addAttribute("playlists",playlistService.showPlaylist(userService.findId(username).getId()));
+            return "main";
         } else if(result == "존재하지 않는 회원입니다.") {
             return "/login_ng";
         } else {

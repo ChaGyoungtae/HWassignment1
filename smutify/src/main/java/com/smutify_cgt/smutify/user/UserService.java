@@ -14,6 +14,10 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    public User findId(String username) {
+         return userRepository.findByUsername(username).get();
+    }
+
     public String createUser(String username) {
 
         Optional<User> findUser = userRepository.findByUsername(username);

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+
+</head>
+<body>
+<form action="/main" method="get">
+  <button type="submit">뒤로가기</button>
+</form>
+
+<table>
+  <tbody>
+  <form action="/show-list" method="post">
+    <tr th:each="list : ${userlists}">
+      <td th:text="${list.song.singer}"></td>
+      <td th:text="${list.song.title}"></td>
+      <td th:text="${list.song.genre}"></td>
+    </tr>
+  </form>
+  </tbody>
+</table>
+
+
+</body>
+</html>
